@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorTextWhite"
+    android:padding="@dimen/mp30"
+    android:paddingTop="@dimen/mp16"
+    android:paddingBottom="@dimen/mp16"
+    tools:context=".activities.BecameProvider">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/edit_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/enter_your_email" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Spinner
+            android:id="@+id/type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/mp16"
+            android:entries="@array/types" />
+
+        <Spinner
+            android:id="@+id/experience"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/mp16"
+            android:entries="@array/experience" />
+
+        <Button
+            android:id="@+id/upgrade_account"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/mp16"
+            android:background="@color/colorPrimary"
+            android:text="@string/upgrade_account"
+            android:textColor="@color/colorTextWhite" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="@dimen/mp32"
+            android:layout_height="@dimen/mp32"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/mp12"
+            android:layout_marginBottom="@dimen/mp12"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+
+</ScrollView>
