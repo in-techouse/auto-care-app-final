@@ -11,8 +11,10 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+
 import com.bumptech.glide.Glide;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -38,12 +40,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
 import android.os.CountDownTimer;
 import android.provider.Settings;
 import android.util.Log;
@@ -56,9 +60,11 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 import lcwu.fyp.autocareapp.R;
 import lcwu.fyp.autocareapp.director.Constants;
@@ -509,7 +515,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         }
     }
 
-    private void sendCancelledNotification(){
+    private void sendCancelledNotification() {
         DatabaseReference notificationReference = FirebaseDatabase.getInstance().getReference().child("Notifications");
         Notification notification = new Notification();
         String id = notificationReference.push().getKey();
@@ -719,120 +725,5 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
     }
 
-//    private void listenToNotifications() {
-//        notificationRefrence.orderByChild("userId").equalTo(user.getPhone()).addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                if (dataSnapshot.getValue() != null) {
-//                    for (DataSnapshot data : dataSnapshot.getChildren()) {
-//                        Notification n = data.getValue(Notification.class);
-//                        if (n != null && !n.isRead()) {
-//                            showNotificationsDialog(n);
-//                        }
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-//    }
-//
-//    private void showNotificationsDialog(final Notification notification) {
-//        NotificationCompat.Builder builder = new NotificationCompat.Builder(Dashboard.this, "1");
-//        builder.setTicker("New Notification");
-//        builder.setAutoCancel(true);
-//        builder.setChannelId("1");
-//        builder.setContentInfo("New Notification");
-//        builder.setContentTitle("New Notification");
-//        builder.setContentText(notification.getMessage());
-//        builder.setSmallIcon(R.mipmap.ic_launcher);
-//        builder.setVibrate(new long[]{1000, 1000, 1000, 1000, 1000});
-//        builder.setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
-//        builder.build();
-//        Intent notificationIntent = new Intent(Dashboard.this, BookingDetailActivity.class);
-//        Bundle bundle = new Bundle();
-//        bundle.putSerializable("Notification", notification);
-//        notificationIntent.putExtras(bundle);
-//        PendingIntent conPendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-//        builder.setContentIntent(conPendingIntent);
-//        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-//        if (manager != null) {
-//            manager.notify(10, builder.build());
-//        }
-//        final MaterialDialog dialog = new MaterialDialog.Builder(Dashboard.this)
-//                .setTitle("NEW Notification")
-//                .setMessage(notification.getMessage())
-//                .setCancelable(false)
-//                .setPositiveButton("DETAILS", R.drawable.ic_okay, new MaterialDialog.OnClickListener() {
-//                    @Override
-//                    public void onClick(com.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
-//                        dialogInterface.dismiss();
-////                        Intent it = new Intent(Dashboard.this, BookingDetailActivity.class);
-////                        Bundle bundle = new Bundle();
-////                        bundle.putSerializable("Notification",notification);
-////                        it.putExtras(bundle);
-////                        startActivity(it);
-//                    }
-//                })
-//                .setNegativeButton("CLOSE", R.drawable.ic_close, new MaterialDialog.OnClickListener() {
-//                    @Override
-//                    public void onClick(com.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
-//                        dialogInterface.dismiss();
-//                    }
-//                })
-//                .build();
-//        // Show Dialog
-//        dialog.show();
-//        //Show Bottom Sheet
-//        confromCard.setVisibility(View.GONE);
-//        userReference.removeEventListener(providerValueListener);
-////        progressBar.isShown();
-//        String bId = notification.getBookingId();
-//        Log.e("Notification", "noti id " + bId);
-//        sheetBehavior.setHideable(false);
-//        bookingReference.child(notification.getBookingId()).addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                Log.e("snapshot", "noti snapshot " + dataSnapshot.toString());
-//                activeBooking = dataSnapshot.getValue(Booking.class);
-//                if (activeBooking != null) {
-//                    userReference.child(activeBooking.getProviderId()).addValueEventListener(new ValueEventListener() {
-//                        @Override
-//                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                            Log.e("driver data", "driver snapshot " + dataSnapshot.toString());
-//                            activeProvider = dataSnapshot.getValue(User.class);
-//                            sheetProgress.setVisibility(View.GONE);
-//                            mainSheet.setVisibility(View.VISIBLE);
-//                            if (activeProvider.getImage() != null && activeProvider.getImage().length() > 1) {
-//                                Glide.with(getApplicationContext()).load(activeProvider.getImage()).into(providerImage);
-//                            } else {
-//                                providerImage.setImageResource(R.drawable.userprofile);
-//                            }
-//                            providerCategory.setText(activeProvider.getType());
-//                            providerName.setText(activeProvider.getFirstName());
-//                            bookingAddress.setText(activeBooking.getAddres());
-//                            bookingDate.setText(activeBooking.getDate());
-//                            getDeviceLocation();
-//                        }
-//
-//                        @Override
-//                        public void onCancelled(@NonNull DatabaseError databaseError) {
-//                            Log.e("driver data", "proder cancelled " + databaseError.toString());
-//                        }
-//                    });
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//                Log.e("snapshot", "noti cancelled");
-//
-//            }
-//        });
-//    }
 }
 

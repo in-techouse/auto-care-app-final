@@ -2,12 +2,15 @@ package lcwu.fyp.autocareapp.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.FirebaseDatabase;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
 import android.util.Patterns;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,32 +18,34 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+
 import lcwu.fyp.autocareapp.R;
 import lcwu.fyp.autocareapp.director.Constants;
 import lcwu.fyp.autocareapp.director.Helpers;
 import lcwu.fyp.autocareapp.director.Session;
 import lcwu.fyp.autocareapp.model.User;
 
-public class UserProfile extends AppCompatActivity implements View.OnClickListener{
+public class UserProfile extends AppCompatActivity implements View.OnClickListener {
     private Helpers helpers;
     private EditText edtPhoneNo, edtFirstName, edtLastName, edtEmail;
     private String strPhoneNo, strFirstName, strLastName, strEmail;
     private Button userProfile;
     private ProgressBar userProfileProgress;
     private ImageView image;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
 
         Intent intent = getIntent();
-        if(intent == null){
+        if (intent == null) {
             finish();
             return;
         }
 
         Bundle bundle = intent.getExtras();
-        if(bundle == null){
+        if (bundle == null) {
             finish();
             return;
         }
@@ -71,15 +76,15 @@ public class UserProfile extends AppCompatActivity implements View.OnClickListen
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        switch (id){
-            case R.id.userProfile:{
-                if(!helpers.isConnected(UserProfile.this)){
+        switch (id) {
+            case R.id.userProfile: {
+                if (!helpers.isConnected(UserProfile.this)) {
                     helpers.showNoInternetError(UserProfile.this);
                     return;
                 }
 
                 boolean flag = isValid();
-                if(flag){
+                if (flag) {
                     userProfileProgress.setVisibility(View.VISIBLE);
                     userProfile.setVisibility(View.GONE);
                     final User user = new User();
@@ -107,14 +112,13 @@ public class UserProfile extends AppCompatActivity implements View.OnClickListen
                                     finish();
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    userProfileProgress.setVisibility(View.GONE);
-                                    userProfile.setVisibility(View.VISIBLE);
-                                    helpers.showError(UserProfile.this, Constants.ERROR_SOMETHING_WENT_WRONG);
-                                }
-                            });
-
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            userProfileProgress.setVisibility(View.GONE);
+                            userProfile.setVisibility(View.VISIBLE);
+                            helpers.showError(UserProfile.this, Constants.ERROR_SOMETHING_WENT_WRONG);
+                        }
+                    });
 
 
                 }
@@ -129,25 +133,22 @@ public class UserProfile extends AppCompatActivity implements View.OnClickListen
         strFirstName = edtFirstName.getText().toString();
         strLastName = edtLastName.getText().toString();
         strEmail = edtEmail.getText().toString();
-        if(strFirstName.length() < 3){
+        if (strFirstName.length() < 3) {
             edtFirstName.setError(Constants.ERROR_FIRST_NAME);
             flag = false;
-        }
-        else{
+        } else {
             edtFirstName.setError(null);
         }
-        if(strLastName.length() < 3){
+        if (strLastName.length() < 3) {
             edtLastName.setError(Constants.ERROR_LAST_NAME);
             flag = false;
-        }
-        else{
+        } else {
             edtLastName.setError(null);
         }
-        if (strEmail.length() < 7 || !Patterns.EMAIL_ADDRESS.matcher(strEmail).matches()){
+        if (strEmail.length() < 7 || !Patterns.EMAIL_ADDRESS.matcher(strEmail).matches()) {
             edtEmail.setError(Constants.ERROR_EMAIL);
             flag = false;
-        }
-        else{
+        } else {
             edtEmail.setError(null);
         }
         return flag;

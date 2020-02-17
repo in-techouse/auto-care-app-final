@@ -32,7 +32,6 @@ import lcwu.fyp.autocareapp.R;
 import lcwu.fyp.autocareapp.adapters.BookingAdapter;
 import lcwu.fyp.autocareapp.director.Session;
 import lcwu.fyp.autocareapp.model.Booking;
-import lcwu.fyp.autocareapp.model.Notification;
 import lcwu.fyp.autocareapp.model.User;
 
 public class BookingActivity extends AppCompatActivity implements View.OnClickListener {
@@ -148,19 +147,18 @@ public class BookingActivity extends AppCompatActivity implements View.OnClickLi
         sheetProgress.setVisibility(View.VISIBLE);
         mainSheet.setVisibility(View.GONE);
 
-        if(user.getRoll() == 0){
+        if (user.getRoll() == 0) {
             about.setText("Provider detail");
-        }
-        else{
+        } else {
             about.setText("Customer detail");
         }
         date.setText(booking.getDate());
         address.setText(booking.getAddres());
-        totalCharge.setText(booking.getAmountCharged()+" RS.");
+        totalCharge.setText(booking.getAmountCharged() + " RS.");
         type.setText(booking.getType());
         status.setText(booking.getStatus());
 
-        if(booking.getProviderId().equals("")){
+        if (booking.getProviderId().equals("")) {
             about.setVisibility(View.GONE);
             userLayout.setVisibility(View.GONE);
             sheetProgress.setVisibility(View.GONE);
@@ -228,12 +226,11 @@ public class BookingActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onBackPressed() {
-        if(sheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED){
+        if (sheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
             sheetBehavior.setHideable(true);
             sheetBehavior.setPeekHeight(0);
             sheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-        }
-        else
+        } else
             finish();
     }
 
@@ -251,10 +248,10 @@ public class BookingActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(bookingListener != null){
+        if (bookingListener != null) {
             reference.removeEventListener(bookingListener);
         }
-        if(userListener != null){
+        if (userListener != null) {
             userReference.removeEventListener(userListener);
         }
     }

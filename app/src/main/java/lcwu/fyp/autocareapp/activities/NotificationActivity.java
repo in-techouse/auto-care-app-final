@@ -238,12 +238,11 @@ public class NotificationActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onBackPressed() {
-        if(sheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED){
+        if (sheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
             sheetBehavior.setHideable(true);
             sheetBehavior.setPeekHeight(0);
             sheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-        }
-        else
+        } else
             finish();
     }
 

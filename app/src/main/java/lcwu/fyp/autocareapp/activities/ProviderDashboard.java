@@ -11,6 +11,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+
 import com.bumptech.glide.Glide;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -28,14 +29,17 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+
 import android.provider.Settings;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
+
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -45,16 +49,20 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.shreyaspatil.MaterialDialog.MaterialDialog;
+
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import java.util.List;
+
 import lcwu.fyp.autocareapp.R;
 import lcwu.fyp.autocareapp.director.Helpers;
 import lcwu.fyp.autocareapp.director.Session;
@@ -83,6 +91,7 @@ public class ProviderDashboard extends AppCompatActivity implements NavigationVi
     private TextView profileName, profileEmail, profilePhone, providerName, bookingAddress, bookingDate;
     private CircleImageView providerImage;
     private EditText totalCharge;
+    private Session session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,7 +131,7 @@ public class ProviderDashboard extends AppCompatActivity implements NavigationVi
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        Session session = new Session(ProviderDashboard.this);
+        session = new Session(ProviderDashboard.this);
         user = session.getUser();
         helpers = new Helpers();
         locationProviderClient = LocationServices.getFusedLocationProviderClient(ProviderDashboard.this);
@@ -368,8 +377,8 @@ public class ProviderDashboard extends AppCompatActivity implements NavigationVi
         Log.e("ProviderDashboard", "Lat: " + lat + " Lng: " + lng);
         user.setLatidue(lat);
         user.setLongitude(lng);
-//        session.setSession(user);
-//        reference.child(user.getPhone()).setValue(user);
+        session.setSession(user);
+        userReference.child(user.getPhone()).setValue(user);
     }
 
     private void listenToBookings() {

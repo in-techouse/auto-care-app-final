@@ -3,6 +3,7 @@ package lcwu.fyp.autocareapp.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,10 +14,13 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+
 import java.util.concurrent.TimeUnit;
+
 import lcwu.fyp.autocareapp.R;
 import lcwu.fyp.autocareapp.director.Constants;
 import lcwu.fyp.autocareapp.director.Helpers;
@@ -42,9 +46,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         RelativeLayout with EditTexts and Button is animated with a default fade in.
          */
 
-        overridePendingTransition(0,0);
-        View relativeLayout=findViewById(R.id.login_container);
-        Animation animation= AnimationUtils.loadAnimation(this,android.R.anim.fade_in);
+        overridePendingTransition(0, 0);
+        View relativeLayout = findViewById(R.id.login_container);
+        Animation animation = AnimationUtils.loadAnimation(this, android.R.anim.fade_in);
         relativeLayout.startAnimation(animation);
 
 
@@ -58,19 +62,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        int id =v.getId();
-        switch (id){
-            case R.id.btnLogin:{
+        int id = v.getId();
+        switch (id) {
+            case R.id.btnLogin: {
                 boolean flag = helpers.isConnected(this);
-                if (!flag){
+                if (!flag) {
                     helpers.showNoInternetError(LoginActivity.this);
                     return;
                 }
                 strPhoneNo = edtPhoneNo.getText().toString();
-                if(strPhoneNo.length()!= 13){
+                if (strPhoneNo.length() != 13) {
                     edtPhoneNo.setError(Constants.ERROR_PHONE);
-                }
-                else{
+                } else {
                     new AlertDialog.Builder(LoginActivity.this)
                             .setTitle(strPhoneNo)
                             .setMessage(Constants.MESSAGE_PHONE_CORRECT)
@@ -81,11 +84,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                     verifyUser();
                                 }
                             }).setNegativeButton(Constants.MESSAGE_NO_EDIT, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            }).show();
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).show();
                 }
                 break;
 
@@ -93,7 +96,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private void verifyUser(){
+    private void verifyUser() {
         Log.e("LOGIN", "Else part");
         loginProgress.setVisibility(View.VISIBLE);
         btnLogin.setVisibility(View.GONE);
