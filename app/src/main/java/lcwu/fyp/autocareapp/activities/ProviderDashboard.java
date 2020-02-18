@@ -10,7 +10,26 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -29,17 +48,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-
-import android.provider.Settings;
-import android.util.Log;
-import android.view.MenuItem;
-import android.view.View;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.core.app.ActivityCompat;
-import androidx.core.view.GravityCompat;
-
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -50,24 +58,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.shreyaspatil.MaterialDialog.MaterialDialog;
 
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import lcwu.fyp.autocareapp.R;
+import lcwu.fyp.autocareapp.director.Constants;
 import lcwu.fyp.autocareapp.director.Helpers;
 import lcwu.fyp.autocareapp.director.Session;
-import de.hdodenhof.circleimageview.CircleImageView;
-import lcwu.fyp.autocareapp.director.Constants;
 import lcwu.fyp.autocareapp.model.Booking;
 import lcwu.fyp.autocareapp.model.User;
 
@@ -82,13 +79,12 @@ public class ProviderDashboard extends AppCompatActivity implements NavigationVi
     private User user, activeCustomer;
     private FusedLocationProviderClient locationProviderClient;
     private Marker marker, customerMarker;
-    private TextView locationAddress;
     private LinearLayout amountLayout;
     private BottomSheetBehavior sheetbehavoior;
     private ProgressBar sheetprogress;
     private RelativeLayout mainsheet;
     private Booking activeBooking;
-    private TextView profileName, profileEmail, profilePhone, providerName, bookingAddress, bookingDate;
+    private TextView locationAddress, profileName, profileEmail, profilePhone, providerName, providerPhone, bookingAddress, bookingDate;
     private CircleImageView providerImage;
     private EditText totalCharge;
     private Session session;
@@ -110,6 +106,8 @@ public class ProviderDashboard extends AppCompatActivity implements NavigationVi
         amountLayout = findViewById(R.id.amountLayout);
         providerImage = findViewById(R.id.providerImage);
         providerName = findViewById(R.id.providerName);
+        providerPhone = findViewById(R.id.providerPhone);
+        RelativeLayout callMe = findViewById(R.id.callMe);
         bookingAddress = findViewById(R.id.bookingAddress);
         bookingDate = findViewById(R.id.bookingDate);
         Button cancelBooking = findViewById(R.id.cancelBooking);
@@ -122,6 +120,7 @@ public class ProviderDashboard extends AppCompatActivity implements NavigationVi
         cancelBooking.setOnClickListener(this);
         completeBooking.setOnClickListener(this);
         amountSubmit.setOnClickListener(this);
+        callMe.setOnClickListener(this);
 
 
         drawer = findViewById(R.id.drawer_layout);
@@ -461,7 +460,7 @@ public class ProviderDashboard extends AppCompatActivity implements NavigationVi
                         Glide.with(ProviderDashboard.this).load(activeCustomer.getImage()).into(providerImage);
                     }
                     providerName.setText(activeCustomer.getFirstName() + " " + activeCustomer.getLastName());
-
+                    providerPhone.setText(activeCustomer.getPhone());
                     bookingAddress.setText(activeBooking.getAddres());
                     bookingDate.setText(activeBooking.getDate());
 
@@ -554,16 +553,12 @@ public class ProviderDashboard extends AppCompatActivity implements NavigationVi
             case R.id.cancelBooking: {
                 Log.e("ProviderDashboard", "button clicked");
                 mainsheet.setVisibility(View.GONE);
-//                sheetbehavoior.setPeekHeight(120);
                 sheetprogress.setVisibility(View.VISIBLE);
                 activeBooking.setStatus("Cancelled");
                 bookingsReference.child(activeBooking.getId()).child("status").setValue(activeBooking.getStatus()).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.e("ProviderDashboard", "Cancelled");
-//                        sheetbehavoior.setHideable(true);
-//                        sheetprogress.setVisibility(View.GONE);
-//                        sheetbehavoior.setState(BottomSheetBehavior.STATE_HIDDEN);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -599,7 +594,6 @@ public class ProviderDashboard extends AppCompatActivity implements NavigationVi
 
                 mainsheet.setVisibility(View.GONE);
                 amountLayout.setVisibility(View.GONE);
-//                sheetbehavoior.setPeekHeight(120);
                 sheetprogress.setVisibility(View.VISIBLE);
                 activeBooking.setStatus("Completed");
                 activeBooking.setAmountCharged(amount);
@@ -608,9 +602,6 @@ public class ProviderDashboard extends AppCompatActivity implements NavigationVi
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.e("ProviderDashboard", "Completed");
-//                        sheetbehavoior.setHideable(true);
-//                        sheetprogress.setVisibility(View.GONE);
-//                        sheetbehavoior.setState(BottomSheetBehavior.STATE_HIDDEN);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -620,6 +611,12 @@ public class ProviderDashboard extends AppCompatActivity implements NavigationVi
                         mainsheet.setVisibility(View.VISIBLE);
                     }
                 });
+            }
+            case R.id.callMe: {
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:" + activeCustomer.getPhone()));
+                startActivity(intent);
+                break;
             }
         }
     }

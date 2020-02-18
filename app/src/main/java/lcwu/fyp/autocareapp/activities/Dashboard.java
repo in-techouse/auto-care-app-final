@@ -10,6 +10,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -85,10 +86,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
     private DrawerLayout drawer;
     private User user;
     private CircleImageView providerImage;
-    private TextView providerName;
-    private TextView providerCategory;
-    private TextView bookingAddress;
-    private TextView bookingDate;
+    private TextView providerName, providerCategory, providerPhone, bookingAddress, bookingDate;
     private FusedLocationProviderClient locationProviderClient;
     private Marker marker, activeProviderMarker;
     private TextView locationAddress;
@@ -119,11 +117,14 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         mainSheet = findViewById(R.id.mainSheet);
         providerImage = findViewById(R.id.providerImage);
         providerName = findViewById(R.id.providerName);
+        providerPhone = findViewById(R.id.providerPhone);
+        RelativeLayout callMe = findViewById(R.id.callMe);
         providerCategory = findViewById(R.id.providerCategory);
         bookingAddress = findViewById(R.id.bookingAddress);
         bookingDate = findViewById(R.id.bookingDate);
         Button cancelBooking = findViewById(R.id.cancelBooking);
         cancelBooking.setOnClickListener(this);
+        callMe.setOnClickListener(this);
 
 
         drawer = findViewById(R.id.drawer_layout);
@@ -512,6 +513,12 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
                 });
                 break;
             }
+            case R.id.callMe:{
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:" + activeProvider.getPhone()));
+                startActivity(intent);
+                break;
+            }
         }
     }
 
@@ -660,6 +667,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
                         Glide.with(Dashboard.this).load(activeProvider.getImage()).into(providerImage);
                     }
                     providerName.setText(activeProvider.getFirstName() + " " + activeProvider.getLastName());
+                    providerPhone.setText(activeProvider.getPhone());
                     providerCategory.setText(activeProvider.getType());
                     bookingDate.setText(activeBooking.getDate());
                     bookingAddress.setText(activeBooking.getAddres());
@@ -722,8 +730,6 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
     private void onBookingCompleted() {
         forBothCancelledAndCompleted();
-
     }
-
 }
 
