@@ -319,9 +319,11 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 googleMap.clear();
-                marker = googleMap.addMarker(new MarkerOptions().position(marker.getPosition()).title("You're Here")
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 11));
+                if (marker != null){
+                    marker = googleMap.addMarker(new MarkerOptions().position(marker.getPosition()).title("You're Here")
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 11));
+                }
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
                     User u = data.getValue(User.class);
                     if (u != null) {
