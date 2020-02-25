@@ -25,10 +25,6 @@
             android:id="@+id/nav_logout"
             android:icon="@drawable/logout"
             android:title="@string/log_out" />
-        <item
-            android:id="@+id/became_a_provider"
-            android:icon="@drawable/provider"
-            android:title="@string/became_a_provider"/>
     </group>
 
 </menu>

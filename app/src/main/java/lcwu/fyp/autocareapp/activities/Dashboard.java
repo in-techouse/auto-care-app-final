@@ -319,7 +319,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 googleMap.clear();
-                if (marker != null){
+                if (marker != null) {
                     marker = googleMap.addMarker(new MarkerOptions().position(marker.getPosition()).title("You're Here")
                             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
                     googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 11));
@@ -426,11 +426,6 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
                 finish();
                 break;
             }
-            case R.id.became_a_provider: {
-                Intent it = new Intent(Dashboard.this, BecameProvider.class);
-                startActivity(it);
-                break;
-            }
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -515,7 +510,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
                 });
                 break;
             }
-            case R.id.callMe:{
+            case R.id.callMe: {
                 Intent intent = new Intent(Intent.ACTION_DIAL);
                 intent.setData(Uri.parse("tel:" + activeProvider.getPhone()));
                 startActivity(intent);

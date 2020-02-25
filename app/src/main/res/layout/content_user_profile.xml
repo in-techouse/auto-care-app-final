@@ -75,6 +75,38 @@
                 android:textColor="@color/colorPrimaryDark" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <CheckBox
+            android:id="@+id/is_Provider"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/mp7"
+            android:padding="@dimen/mp7"
+            android:text="Are you joining us as a Provider" />
+
+        <LinearLayout
+            android:id="@+id/provider_option"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/mp7"
+            android:orientation="vertical">
+
+            <Spinner
+                android:id="@+id/type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/mp1"
+                android:entries="@array/types" />
+
+            <Spinner
+                android:id="@+id/experience"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/mp7"
+                android:entries="@array/experience" />
+
+        </LinearLayout>
+
         <Button
             android:id="@+id/userProfile"
             android:layout_width="match_parent"

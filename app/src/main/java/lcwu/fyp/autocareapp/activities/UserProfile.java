@@ -15,9 +15,13 @@ import android.util.Patterns;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 
 import lcwu.fyp.autocareapp.R;
 import lcwu.fyp.autocareapp.director.Constants;
@@ -28,11 +32,14 @@ import lcwu.fyp.autocareapp.model.User;
 public class UserProfile extends AppCompatActivity implements View.OnClickListener {
     private Helpers helpers;
     private EditText edtPhoneNo, edtFirstName, edtLastName, edtEmail;
-    private String strPhoneNo, strFirstName, strLastName, strEmail;
+    private String strPhoneNo, strFirstName, strLastName, strEmail, str_type, str_experience;
     private Button userProfile;
     private ProgressBar userProfileProgress;
     private ImageView image;
-
+    private CheckBox is_Provider;
+    private Spinner type,experience;
+    private LinearLayout provide_option;
+    private int role = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,10 +74,30 @@ public class UserProfile extends AppCompatActivity implements View.OnClickListen
         edtEmail = findViewById(R.id.edtEmail);
         userProfileProgress = findViewById(R.id.userProfileProgress);
         userProfile = findViewById(R.id.userProfile);
+        is_Provider = findViewById(R.id.is_Provider);
+        type=findViewById(R.id.type);
+        experience=findViewById(R.id.experience);
+        provide_option=findViewById(R.id.provider_option);
         userProfile.setOnClickListener(this);
+
 
         edtPhoneNo.setText(strPhoneNo);
         edtPhoneNo.setEnabled(false);
+
+        is_Provider.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b)
+                {
+                    provide_option.setVisibility(View.VISIBLE);
+                    role = 1;
+                }
+                else {
+                    provide_option.setVisibility(View.GONE);
+                    role = 0;
+                }
+            }
+        });
     }
 
     @Override
@@ -92,9 +119,9 @@ public class UserProfile extends AppCompatActivity implements View.OnClickListen
                     user.setFirstName(strFirstName);
                     user.setLastName(strLastName);
                     user.setEmail(strEmail);
-                    user.setRoll(0);
-                    user.setType("");
-                    user.setExperience("");
+                    user.setRoll(role);
+                    user.setType(str_type);
+                    user.setExperience(str_experience);
                     user.setLongitude(0);
                     user.setLatidue(0);
                     final Session session = new Session(UserProfile.this);
@@ -106,10 +133,19 @@ public class UserProfile extends AppCompatActivity implements View.OnClickListen
                                     userProfileProgress.setVisibility(View.GONE);
                                     userProfile.setVisibility(View.VISIBLE);
                                     session.setSession(user);
-                                    Intent it = new Intent(UserProfile.this, Dashboard.class);
-                                    it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    startActivity(it);
-                                    finish();
+                                    if(user.getRoll() == 0) {
+                                        Intent it = new Intent(UserProfile.this, Dashboard.class);
+                                        it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        startActivity(it);
+                                        finish();
+                                    }
+                                    else{
+                                        Intent it = new Intent(UserProfile.this, ProviderDashboard.class);
+                                        it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        startActivity(it);
+                                        finish();
+
+                                    }
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -130,6 +166,8 @@ public class UserProfile extends AppCompatActivity implements View.OnClickListen
 
     private boolean isValid() {
         boolean flag = true;
+        String Error = "";
+
         strFirstName = edtFirstName.getText().toString();
         strLastName = edtLastName.getText().toString();
         strEmail = edtEmail.getText().toString();
@@ -150,6 +188,27 @@ public class UserProfile extends AppCompatActivity implements View.OnClickListen
             flag = false;
         } else {
             edtEmail.setError(null);
+        }
+        if (is_Provider.isChecked()){
+            if (type.getSelectedItemPosition() == 0) {
+                flag = false;
+                Error = Error + "Select Your Type First\n";
+            } else {
+                str_type = type.getSelectedItem().toString();
+            }
+            if (experience.getSelectedItemPosition() == 0) {
+                flag = false;
+                Error = Error + "Select Your Experience First\n";
+            } else {
+                str_experience = experience.getSelectedItem().toString();
+            }
+            if (!Error.equals("")) {
+                helpers.showError(UserProfile.this, Error);
+            }
+        }
+        else {
+            str_type= "";
+            str_experience="";
         }
         return flag;
     }
