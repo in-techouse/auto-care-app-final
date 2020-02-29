@@ -1,6 +1,5 @@
 package lcwu.fyp.autocareapp.adapters;
 
-import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,13 +19,11 @@ import lcwu.fyp.autocareapp.model.Notification;
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.NotificationHolder> {
     private List<Notification> Data;
-    private Context context;
     private int role;
     private NotificationActivity notificationActivity;
 
-    public NotificationAdapter(Context c, int r, NotificationActivity n) {
+    public NotificationAdapter(int r, NotificationActivity n) {
         Data = new ArrayList<>();
-        context = c;
         role = r;
         notificationActivity = n;
     }

@@ -38,7 +38,6 @@ public class NotificationActivity extends AppCompatActivity implements View.OnCl
     private LinearLayout loading;
     private TextView noRecord;
     private RecyclerView notifications;
-    private Session session;
     private User user;
     private List<Notification> Data;
     private NotificationAdapter notificationAdapter;
@@ -48,7 +47,6 @@ public class NotificationActivity extends AppCompatActivity implements View.OnCl
     private ValueEventListener notificationListener, bookingListener, userListener;
     private String orderBy;
     private BottomSheetBehavior sheetBehavior;
-    private Button closeSheet;
     private ProgressBar sheetProgress;
     private LinearLayout mainSheet;
     private CircleImageView image;
@@ -62,10 +60,10 @@ public class NotificationActivity extends AppCompatActivity implements View.OnCl
         loading = findViewById(R.id.loading);
         noRecord = findViewById(R.id.noRecord);
         notifications = findViewById(R.id.notifiations);
-        session = new Session(NotificationActivity.this);
+        Session session = new Session(NotificationActivity.this);
         user = session.getUser();
         Data = new ArrayList<>();
-        notificationAdapter = new NotificationAdapter(NotificationActivity.this, user.getRoll(), NotificationActivity.this);
+        notificationAdapter = new NotificationAdapter(user.getRoll(), NotificationActivity.this);
         notifications.setLayoutManager(new LinearLayoutManager(NotificationActivity.this));
         notifications.setAdapter(notificationAdapter);
 
@@ -75,7 +73,7 @@ public class NotificationActivity extends AppCompatActivity implements View.OnCl
         sheetBehavior.setPeekHeight(0);
         sheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 
-        closeSheet = findViewById(R.id.closeSheet);
+        Button closeSheet = findViewById(R.id.closeSheet);
         closeSheet.setOnClickListener(this);
         sheetProgress = findViewById(R.id.sheetProgress);
         mainSheet = findViewById(R.id.mainSheet);
