@@ -2,12 +2,9 @@ package lcwu.fyp.autocareapp.director;
 
 import android.app.Activity;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Bundle;
 import android.provider.Settings;
 
 import androidx.core.app.NotificationCompat;
@@ -15,8 +12,6 @@ import androidx.core.app.NotificationCompat;
 import com.shreyaspatil.MaterialDialog.MaterialDialog;
 
 import lcwu.fyp.autocareapp.R;
-import lcwu.fyp.autocareapp.activities.ProviderDashboard;
-import lcwu.fyp.autocareapp.activities.ShowBookingDetail;
 
 public class Helpers {
 
@@ -71,7 +66,7 @@ public class Helpers {
         dialog.show();
     }
 
-    public void showSuccess(Activity activity, String message){
+    public void showSuccess(Activity activity, String message) {
         final MaterialDialog dialog = new MaterialDialog.Builder(activity)
                 .setMessage(message)
                 .setCancelable(false)

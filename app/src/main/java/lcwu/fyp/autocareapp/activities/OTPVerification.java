@@ -1,8 +1,5 @@
 package lcwu.fyp.autocareapp.activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -11,6 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.chaos.view.PinView;
 import com.google.android.gms.tasks.OnFailureListener;

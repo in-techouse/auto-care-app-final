@@ -85,11 +85,11 @@
 
         <LinearLayout
             android:id="@+id/provider_option"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/mp7"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <Spinner
                 android:id="@+id/type"

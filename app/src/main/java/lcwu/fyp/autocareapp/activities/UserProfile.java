@@ -2,15 +2,6 @@ package lcwu.fyp.autocareapp.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.FirebaseDatabase;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.util.Patterns;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +13,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.FirebaseDatabase;
 
 import lcwu.fyp.autocareapp.R;
 import lcwu.fyp.autocareapp.director.Constants;
@@ -37,9 +36,10 @@ public class UserProfile extends AppCompatActivity implements View.OnClickListen
     private ProgressBar userProfileProgress;
     private ImageView image;
     private CheckBox is_Provider;
-    private Spinner type,experience;
+    private Spinner type, experience;
     private LinearLayout provide_option;
     private int role = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,9 +75,9 @@ public class UserProfile extends AppCompatActivity implements View.OnClickListen
         userProfileProgress = findViewById(R.id.userProfileProgress);
         userProfile = findViewById(R.id.userProfile);
         is_Provider = findViewById(R.id.is_Provider);
-        type=findViewById(R.id.type);
-        experience=findViewById(R.id.experience);
-        provide_option=findViewById(R.id.provider_option);
+        type = findViewById(R.id.type);
+        experience = findViewById(R.id.experience);
+        provide_option = findViewById(R.id.provider_option);
         userProfile.setOnClickListener(this);
 
 
@@ -87,12 +87,10 @@ public class UserProfile extends AppCompatActivity implements View.OnClickListen
         is_Provider.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b)
-                {
+                if (b) {
                     provide_option.setVisibility(View.VISIBLE);
                     role = 1;
-                }
-                else {
+                } else {
                     provide_option.setVisibility(View.GONE);
                     role = 0;
                 }
@@ -133,13 +131,12 @@ public class UserProfile extends AppCompatActivity implements View.OnClickListen
                                     userProfileProgress.setVisibility(View.GONE);
                                     userProfile.setVisibility(View.VISIBLE);
                                     session.setSession(user);
-                                    if(user.getRoll() == 0) {
+                                    if (user.getRoll() == 0) {
                                         Intent it = new Intent(UserProfile.this, Dashboard.class);
                                         it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                         startActivity(it);
                                         finish();
-                                    }
-                                    else{
+                                    } else {
                                         Intent it = new Intent(UserProfile.this, ProviderDashboard.class);
                                         it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                         startActivity(it);
@@ -189,7 +186,7 @@ public class UserProfile extends AppCompatActivity implements View.OnClickListen
         } else {
             edtEmail.setError(null);
         }
-        if (is_Provider.isChecked()){
+        if (is_Provider.isChecked()) {
             if (type.getSelectedItemPosition() == 0) {
                 flag = false;
                 Error = Error + "Select Your Type First\n";
@@ -205,10 +202,9 @@ public class UserProfile extends AppCompatActivity implements View.OnClickListen
             if (!Error.equals("")) {
                 helpers.showError(UserProfile.this, Error);
             }
-        }
-        else {
-            str_type= "";
-            str_experience="";
+        } else {
+            str_type = "";
+            str_experience = "";
         }
         return flag;
     }

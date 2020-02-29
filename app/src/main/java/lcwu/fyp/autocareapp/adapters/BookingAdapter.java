@@ -21,13 +21,11 @@ import lcwu.fyp.autocareapp.model.Booking;
 public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingHolder> {
 
     private List<Booking> Data;
-    private Context context;
     private BookingActivity bookingActivity;
 
     public BookingAdapter(Context c, BookingActivity b) {
 
         Data = new ArrayList<>();
-        context = c;
 
         bookingActivity = b;
     }
@@ -71,7 +69,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingH
         TextView date, type, status, address;
         CardView mainCard;
 
-        public BookingHolder(@NonNull View itemView) {
+        BookingHolder(@NonNull View itemView) {
             super(itemView);
             date = itemView.findViewById(R.id.date);
             type = itemView.findViewById(R.id.type);

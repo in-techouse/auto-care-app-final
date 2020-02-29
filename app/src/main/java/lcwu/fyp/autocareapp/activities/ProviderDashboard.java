@@ -149,6 +149,9 @@ public class ProviderDashboard extends AppCompatActivity implements NavigationVi
         profile_type.setText(user.getType());
         profile_phone.setText(user.getPhone());
         profile_experience.setText("Experience: " + user.getExperience());
+        if (user.getImage() != null && user.getImage().length() > 1) {
+            Glide.with(getApplicationContext()).load(user.getImage()).into(profile_image);
+        }
         locationAddress = findViewById(R.id.locationAddress);
         map = findViewById(R.id.map);
         map.onCreate(savedInstanceState);
