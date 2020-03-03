@@ -267,7 +267,8 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
                     if (task.isSuccessful()) {
                         Location location = task.getResult();
                         if (location != null) {
-                            googleMap.clear();
+                            if (marker != null)
+                                marker.remove();
                             LatLng me = new LatLng(location.getLatitude(), location.getLongitude());
                             marker = googleMap.addMarker(new MarkerOptions().position(me).title("You're Here")
                                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));

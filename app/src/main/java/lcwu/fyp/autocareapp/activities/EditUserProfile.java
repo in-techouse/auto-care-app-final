@@ -244,7 +244,6 @@ public class EditUserProfile extends AppCompatActivity implements View.OnClickLi
         user.setFirstName(strFirstName);
         user.setLastName(strLastName);
         user.setEmail(strEmail);
-        final Session session = new Session(EditUserProfile.this);
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         db.getReference().child("Users").child(strPhoneNo).setValue(user)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
