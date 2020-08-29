@@ -1,9 +1,5 @@
 package lcwu.fyp.autocareapp.activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -23,6 +19,10 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -63,13 +63,11 @@ import lcwu.fyp.autocareapp.model.User;
 public class ShowBookingDetail extends AppCompatActivity implements View.OnClickListener {
     private Booking booking;
     private TextView UserName, user_address, travel, YourAddress;
-    private Button reject, accept;
     private MapView map;
     private GoogleMap googleMap;
     private Marker userMarker, providerMarker;
     private FusedLocationProviderClient locationProviderClient;
     private Helpers helpers;
-    private Session session;
     private User user, customer;
     private LinearLayout progress, buttons;
     private CircleImageView userImage;
@@ -113,15 +111,15 @@ public class ShowBookingDetail extends AppCompatActivity implements View.OnClick
         UserName = findViewById(R.id.userName);
         userImage = findViewById(R.id.userImage);
         user_address = findViewById(R.id.address);
-        reject = findViewById(R.id.REJECT);
-        accept = findViewById(R.id.ACCEPT);
+        Button reject = findViewById(R.id.REJECT);
+        Button accept = findViewById(R.id.ACCEPT);
         map = findViewById(R.id.map);
         travel = findViewById(R.id.Travel);
         YourAddress = findViewById(R.id.your_address);
         accept.setOnClickListener(this);
         reject.setOnClickListener(this);
 
-        session = new Session(ShowBookingDetail.this);
+        Session session = new Session(ShowBookingDetail.this);
         user = session.getUser();
         helpers = new Helpers();
 
