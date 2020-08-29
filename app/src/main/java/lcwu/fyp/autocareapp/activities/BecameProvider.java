@@ -93,7 +93,6 @@ public class BecameProvider extends AppCompatActivity implements View.OnClickLis
                             helpers.showError(BecameProvider.this, Constants.ERROR_SOMETHING_WENT_WRONG);
                         }
                     });
-
                 }
                 break;
             }
